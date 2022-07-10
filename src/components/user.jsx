@@ -3,8 +3,20 @@ import api from "../api";
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
+
   const formatUsers = () => {
-    return users.length < 5 && users.length !== 0 ? "человека" : "человек";
+    if (users.length === 0) {
+      return "C вами сегодня никто не тусанет";
+    } else
+      return users.length < 5 && users.length !== 0
+        ? users.length + " человека тусанёт с вами сегодня"
+        : users.length + " человек тусанут с тобой сегодня";
+  };
+
+  const addBages = () => {
+    if (users.length === 0) {
+      return "badge bg-danger";
+    }
   };
 
   const handleDeleteUser = (id) => {
@@ -12,7 +24,7 @@ const Users = () => {
   };
   return (
     <>
-      <h1>{`C вами тусанёт сегодня ${users.length} ${formatUsers()}`}</h1>
+      <span className={`${addBages()}`}>{formatUsers()}</span>
       <table className="table">
         <thead>
           <tr>
