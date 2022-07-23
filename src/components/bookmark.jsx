@@ -1,13 +1,22 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const BookMark = ({ status, ...rest }) => {
     return (
         <>
             <button {...rest}>
-                <i className={status ? "bi bi-bookmark-fill" : "bi bi-bookmark"}></i>
+                <i
+                    className={
+                        status ? "bi bi-bookmark-fill" : "bi bi-bookmark"
+                    }
+                ></i>
             </button>
         </>
-    )
+    );
 };
 
-export default BookMark
+BookMark.propTypes = {
+    status: PropTypes.bool.isRequired
+};
+
+export default BookMark;
