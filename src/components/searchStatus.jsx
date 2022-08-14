@@ -2,23 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const SearchStatus = ({ length }) => {
-    const formatUsers = () => {
-        if (length === 0) {
-            return "C вами сегодня никто не тусанет";
-        } else {
-            return length < 5 && length !== 0
-                ? length + " человека тусанёт с вами сегодня"
-                : length + " человек тусанут с тобой сегодня";
-        }
+    const renderPhrase = (number) => {
+        const lastOne = Number(number.toString().slice(-1));
+        if (number > 4 && number < 15) return "человек тусанет";
+        if ([2, 3, 4].indexOf(lastOne) >= 0) return "человека тусанут";
+        if (lastOne === 1) return "человек тусанет";
+        return "человек тусанет";
     };
-    const addBage = () => {
-        if (length === 0) {
-            return "badge bg-danger";
-        }
-    };
+
     return (
         <h2>
-            <span className={`${addBage()}`}>{formatUsers()}</span>
+            <span
+                className={"badge " + (length > 0 ? "bg-primary" : "bg-danger")}
+            >
+                {length > 0
+                    ? `${length + " " + renderPhrase(length)} с тобой сегодня`
+                    : "Никто с тобой не тусанет"}
+            </span>
         </h2>
     );
 };

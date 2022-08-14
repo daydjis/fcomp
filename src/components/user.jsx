@@ -1,33 +1,43 @@
 import React from "react";
-import Qualitie from "./qualitie";
+import Quality from "./qualitie";
 import BookMark from "./bookmark";
 import PropTypes from "prop-types";
 
-const User = (props) => {
+const User = ({
+    _id,
+    name,
+    qualities,
+    profession,
+    completedMeetings,
+    rate,
+    onDelete,
+    bookmark,
+    onToggleBookMark
+}) => {
     return (
         <>
-            <tr key={props._id}>
-                <td>{props.name}</td>
+            <tr key={_id}>
+                <td>{name}</td>
                 <td>
-                    {props.qualities.map((qual) => (
-                        <Qualitie key={qual._id} {...qual} />
+                    {qualities.map((qual) => (
+                        <Quality key={qual._id} {...qual} />
                     ))}
                 </td>
-                <td>{props.profession.name}</td>
-                <td>{props.completedMeetings}</td>
-                <td>{props.rate} /5</td>
+                <td>{profession.name}</td>
+                <td>{completedMeetings}</td>
+                <td>{rate} /5</td>
                 <td>
                     <BookMark
-                        status={props.bookmark}
-                        onClick={() => props.onToggleBookMark(props._id)}
+                        status={bookmark}
+                        onClick={() => onToggleBookMark(_id)}
                     />
                 </td>
                 <td>
                     <button
-                        onClick={() => props.onDelete(props._id)}
+                        onClick={() => onDelete(_id)}
                         className="btn btn-danger"
                     >
-                        Удалить
+                        delete
                     </button>
                 </td>
             </tr>

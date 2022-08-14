@@ -22,11 +22,6 @@ module.exports = {
             { anonymous: "always", named: "never" }
         ],
 
-        "no-multi-spaces": [
-            "error",
-            { exceptions: { BinaryExpression: true } }
-        ],
-
         quotes: ["error", "double", { allowTemplateLiterals: true }]
     }
 };
