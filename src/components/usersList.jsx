@@ -7,7 +7,7 @@ import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
 
-const Users = () => {
+const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -53,11 +53,11 @@ const Users = () => {
     if (users) {
         const filteredUsers = selectedProf
             ? users.filter((user) => {
-                  return (
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-                  );
-              })
+                return (
+                    JSON.stringify(user.profession) ===
+                    JSON.stringify(selectedProf)
+                );
+            })
             : users;
 
         const count = filteredUsers.length;
@@ -76,7 +76,7 @@ const Users = () => {
             setSelectedProf();
         };
 
-        return (
+        return (<>
             <div className="d-flex">
                 {professions && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
@@ -89,7 +89,7 @@ const Users = () => {
                             className="btn btn-secondary mt-2"
                             onClick={clearFilter}
                         >
-                            сбросить фильтр
+                            Сбросить фильтр
                         </button>
                     </div>
                 )}
@@ -114,9 +114,10 @@ const Users = () => {
                     </div>
                 </div>
             </div>
+        </>
         );
     }
-    return "loading...";
+    return <h1>Загрузка</h1>;
 };
 
-export default Users;
+export default UsersList;

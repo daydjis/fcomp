@@ -12,7 +12,6 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ path: item, order: "asc" });
         }
     };
-    console.log(selectedSort);
     return (
         <thead>
             <tr>
