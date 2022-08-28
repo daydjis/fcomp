@@ -78,6 +78,18 @@ const UsersList = () => {
             [sortBy.order]
         );
 
+        const flagsYouWant = "i";
+
+        const dynamicRegExp = new RegExp(`${search}`, flagsYouWant);
+
+        users.map((user) => {
+            if (dynamicRegExp.test(user.name)) {
+                return user.name;
+            } else {
+                return console.log(user.name + "  не прошёл");
+            }
+        });
+
         const usersCrop = paginate(sortedUsers, currentPage, pageSize);
 
         usersCrop.length || count === 0 || handlePageChange(currentPage - 1);
@@ -119,25 +131,19 @@ const UsersList = () => {
                                 <button className="btn btn-outline-secondary" onClick={clickSearch} type="submit" id="button-addon2">Найти</button>
                             </div>
                         </>
+
                         {
-                            count > 0 && (!search)
-                                ? (
-                                    <UserTable
-                                        users={usersCrop}
-                                        selectedSort={sortBy}
-                                        onSort={handleSort}
-                                        onDelete={handleDelete}
-                                        onToggleBookMark={handleToggleBookMark}
-                                    />
-                                )
-                                : <h1>
-                                    {
-                                        users.forEach((user) => {
-                                            if (user.name.includes(search)) { return user.name; }
-                                        })
-                                    }
-                                </h1>
+                            count > 0 &&
+                            (<UserTable
+                                users={usersCrop}
+                                selectedSort={sortBy}
+                                onSort={handleSort}
+                                onDelete={handleDelete}
+                                onToggleBookMark={handleToggleBookMark}
+                            />
+                            )
                         }
+
                         <div className="d-flex justify-content-center">
                             <Pagination
                                 itemsCount={count}
