@@ -53,7 +53,7 @@ const UserTable = ({
             selectedSort={selectedSort}
             columns={columns}
             data={users}
-        ></Table>
+        />
     );
 };
 

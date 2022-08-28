@@ -8,13 +8,11 @@ import usersLayout from "./components/usersLayout";
 const App = () => {
     return <>
         <Navbar />
-        <div className="container">
-            <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/main" component={Main} />
-                <Route path="/users/:userId?" component={usersLayout} />
-            </Switch>
-        </div>;
+        <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/main" component={Main} />
+            <Route path="/users/:userId?" component={usersLayout} />
+        </Switch>
     </>;
 };
 

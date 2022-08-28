@@ -34,10 +34,9 @@
     color: rgb(2, 2, 2);
 }
 
-.container { 
+.container_users { 
   height: 10em;
-  padding-top: 400px;
   display: flex;
-  align-items: center;
-  justify-content: center
+  margin-top: 150px;
+  justify-content: center;
 }

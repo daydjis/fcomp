@@ -50,6 +50,16 @@ const UsersList = () => {
         setSortBy(item);
     };
 
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const clickSearch = () => {
+        console.log(search);
+    };
+
     if (users) {
         const filteredUsers = selectedProf
             ? users.filter((user) => {
@@ -75,49 +85,77 @@ const UsersList = () => {
         const clearFilter = () => {
             setSelectedProf();
         };
-
-        return (<>
-            <div className="d-flex">
-                {professions && (
-                    <div className="d-flex flex-column flex-shrink-0 p-3">
-                        <GroupList
-                            selectedItem={selectedProf}
-                            items={professions}
-                            onItemSelect={handleProfessionSelect}
-                        />
-                        <button
-                            className="btn btn-secondary mt-2"
-                            onClick={clearFilter}
-                        >
-                            Сбросить фильтр
-                        </button>
-                    </div>
-                )}
-                <div className="d-flex flex-column">
-                    <SearchStatus length={count} />
-                    {count > 0 && (
-                        <UserTable
-                            users={usersCrop}
-                            selectedSort={sortBy}
-                            onSort={handleSort}
-                            onDelete={handleDelete}
-                            onToggleBookMark={handleToggleBookMark}
-                        />
+        return (
+            <>
+                <div className="d-flex">
+                    {professions && (
+                        <div className="d-flex flex-column flex-shrink-0 p-3">
+                            <GroupList
+                                selectedItem={selectedProf}
+                                items={professions}
+                                onItemSelect={handleProfessionSelect}
+                            />
+                            <button
+                                className="btn btn-secondary mt-2"
+                                onClick={clearFilter}
+                            >
+                                Сбросить фильтр
+                            </button>
+                        </div>
                     )}
-                    <div className="d-flex justify-content-center">
-                        <Pagination
-                            itemsCount={count}
-                            pageSize={pageSize}
-                            currentPage={currentPage}
-                            onPageChange={handlePageChange}
-                        />
-                    </div>
-                </div>
-            </div>
-        </>
+                    <div className="d-flex flex-column">
+                        <SearchStatus length={count} />
+                        <>
+                            <div className="input-group mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Recipient's username"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="button-addon2"
+                                    value={search}
+                                    onChange={handleSearch}
+                                />
+                                <button className="btn btn-outline-secondary" onClick={clickSearch} type="submit" id="button-addon2">Найти</button>
+                            </div>
+                        </>
+                        {
+                            count > 0 && (!search)
+                                ? (
+                                    <UserTable
+                                        users={usersCrop}
+                                        selectedSort={sortBy}
+                                        onSort={handleSort}
+                                        onDelete={handleDelete}
+                                        onToggleBookMark={handleToggleBookMark}
+                                    />
+                                )
+                                : <h1>
+                                    {
+                                        users.forEach((user) => {
+                                            if (user.name.includes(search)) { return user.name; }
+                                        })
+                                    }
+                                </h1>
+                        }
+                        <div className="d-flex justify-content-center">
+                            <Pagination
+                                itemsCount={count}
+                                pageSize={pageSize}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    </div >
+                </div >
+            </>
         );
     }
-    return <h1>Загрузка</h1>;
+    return <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </div>
+    </div>;
 };
 
 export default UsersList;

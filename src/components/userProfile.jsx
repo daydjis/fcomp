@@ -14,15 +14,22 @@ const UserProfile = ({ userId }) => {
 
     useEffect(() => { api.users.getById(userId).then((data) => setUser(data)); }, []);
     if (user) {
-        return (<div>
-            <h1>{user.name}</h1>
-            <h2>Профессия:{user.profession.name}</h2>
-            <QualitiesList qualities={user.qualities} />
-            <h6>completedMeetings:{user.completedMeetings}</h6>
-            <h2>Rate:{user.rate}</h2>
-            <button onClick={() => handleToUsersPage()}>Все пользователи</button>
-        </div >);
-    } return "Загрузка...";
+        return (
+            <div className="d-flex justify-content-center">
+                <div>
+                    <h1>{user.name}</h1>
+                    <h2>Профессия:{user.profession.name}</h2>
+                    <QualitiesList qualities={user.qualities} />
+                    <h6>completedMeetings:{user.completedMeetings}</h6>
+                    <h2>Rate:{user.rate}</h2>
+                    <button onClick={() => handleToUsersPage()}>Все пользователи</button>
+                </div>
+            </div>);
+    } return <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </div>
+    </div>;
 };
 
 UserProfile.propTypes = {

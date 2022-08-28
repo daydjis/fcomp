@@ -1,23 +1,42 @@
 
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const TextField = ({ label, type, name, value, onChange, error }) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const getInputClasses = () => {
+        return "form-control " + (error ? "is-invalid" : "");
+    };
+    const toogleShowPassword = () => {
+        setShowPassword((prevState) => !prevState);
+    };
+
     return (
-        <div className="col-md-6">
-            <label className="form-label" htmlFor={name}>
+        <div className="mb-4">
+            <label htmlFor={name}>
                 {label}
             </label>
-            <input className="form-control"
-                type={type}
-                id={name}
-                name={name}
-                value={value}
-                onChange={onChange}
-
-            />
-            {error && <p>{error}</p>}
-        </div>);
+            <div className="input-group mb-3 has-validation">
+                <input
+                    type={showPassword ? "text" : type}
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className={getInputClasses()}
+                />
+                {type === "password" && (
+                    <button
+                        className="btn btn-outline-secondary"
+                        onClick={toogleShowPassword}
+                        type="button">
+                        {!showPassword ? "показать" : "скрыть"}
+                    </button>
+                )}
+                {error && <div className="invalid-feedback">{error}</div>}
+            </div>
+        </div>
+    );
 };
 
 TextField.defaultprops = {
