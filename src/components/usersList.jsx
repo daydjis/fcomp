@@ -54,21 +54,22 @@ const UsersList = () => {
 
     const handleSort = (item) => {
         setSortBy(item);
+        selectedProf(undefined);
     };
 
     if (users) {
         const filteredUsers = search
             ? users.filter((user) => {
-                  return dynamicRegExp.test(user.name);
-              })
+                return dynamicRegExp.test(user.name);
+            })
             : selectedProf
-            ? users.filter((user) => {
-                  return (
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-                  );
-              })
-            : users;
+                ? users.filter((user) => {
+                    return (
+                        JSON.stringify(user.profession) ===
+                        JSON.stringify(selectedProf)
+                    );
+                })
+                : users;
 
         const count = filteredUsers.length;
 
