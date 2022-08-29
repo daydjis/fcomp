@@ -13,11 +13,15 @@ const UsersList = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
+    const [search, setSearch] = useState("");
 
     const [users, setUsers] = useState();
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
+    const flagsYouWant = "i";
+
+    const dynamicRegExp = new RegExp(`${search}`, flagsYouWant);
 
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
@@ -34,12 +38,14 @@ const UsersList = () => {
     useEffect(() => {
         api.professions.fetchAll().then((data) => setProfession(data));
     }, []);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        setSearch("");
     };
 
     const handlePageChange = (pageIndex) => {
@@ -50,24 +56,18 @@ const UsersList = () => {
         setSortBy(item);
     };
 
-    const [search, setSearch] = useState("");
-
-    const handleSearch = (e) => {
-        setSearch(e.target.value);
-    };
-
-    const clickSearch = () => {
-        console.log(search);
-    };
-
     if (users) {
-        const filteredUsers = selectedProf
+        const filteredUsers = search
             ? users.filter((user) => {
-                return (
-                    JSON.stringify(user.profession) ===
-                    JSON.stringify(selectedProf)
-                );
-            })
+                  return dynamicRegExp.test(user.name);
+              })
+            : selectedProf
+            ? users.filter((user) => {
+                  return (
+                      JSON.stringify(user.profession) ===
+                      JSON.stringify(selectedProf)
+                  );
+              })
             : users;
 
         const count = filteredUsers.length;
@@ -78,17 +78,21 @@ const UsersList = () => {
             [sortBy.order]
         );
 
-        const flagsYouWant = "i";
+        const handleSearch = (e) => {
+            setSearch(e.target.value);
+        };
 
-        const dynamicRegExp = new RegExp(`${search}`, flagsYouWant);
-
-        users.map((user) => {
-            if (dynamicRegExp.test(user.name)) {
-                return user.name;
-            } else {
-                return console.log(user.name + "  не прошёл");
-            }
-        });
+        const clickSearch = () => {
+            console.log(sortedUsers);
+            // Проверка поиска через регулярку
+            users.filter((user) => {
+                if (dynamicRegExp.test(user.name)) {
+                    return console.log(user.name + " ______прошёл_______");
+                } else {
+                    return console.log(user.name + "  не прошёл");
+                }
+            });
+        };
 
         const usersCrop = paginate(sortedUsers, currentPage, pageSize);
 
@@ -96,6 +100,7 @@ const UsersList = () => {
 
         const clearFilter = () => {
             setSelectedProf();
+            setSearch("");
         };
         return (
             <>
@@ -128,21 +133,26 @@ const UsersList = () => {
                                     value={search}
                                     onChange={handleSearch}
                                 />
-                                <button className="btn btn-outline-secondary" onClick={clickSearch} type="submit" id="button-addon2">Найти</button>
+                                <button
+                                    className="btn btn-outline-secondary"
+                                    onClick={clickSearch}
+                                    type="submit"
+                                    id="button-addon2"
+                                >
+                                    Найти
+                                </button>
                             </div>
                         </>
 
-                        {
-                            count > 0 &&
-                            (<UserTable
+                        {count > 0 && (
+                            <UserTable
                                 users={usersCrop}
                                 selectedSort={sortBy}
                                 onSort={handleSort}
                                 onDelete={handleDelete}
                                 onToggleBookMark={handleToggleBookMark}
                             />
-                            )
-                        }
+                        )}
 
                         <div className="d-flex justify-content-center">
                             <Pagination
@@ -152,16 +162,18 @@ const UsersList = () => {
                                 onPageChange={handlePageChange}
                             />
                         </div>
-                    </div >
-                </div >
+                    </div>
+                </div>
             </>
         );
     }
-    return <div className="d-flex justify-content-center">
-        <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
+    return (
+        <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
         </div>
-    </div>;
+    );
 };
 
 export default UsersList;
