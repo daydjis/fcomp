@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import UserProfile from "./userProfile";
+import UserProfile from "./page/userPage/userPage";
 import Users from "./layouts/users";
 
 const usersLayout = () => {
