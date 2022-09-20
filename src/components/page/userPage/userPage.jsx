@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import api from "../../../api";
 import PropTypes from "prop-types";
 import QualitiesList from "../../ui/qualities/qualitiesList";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 const UserPage = ({ userId }) => {
     const [user, setUser] = useState();
     const histori = useHistory();
 
-    const handleToUsersPage = () => {
+    const handleClick = () => {
         histori.push("/users");
     };
 
-    useEffect(() => { api.users.getById(userId).then((data) => setUser(data)); }, []);
+    useEffect(() => { api.users.getById(userId).then((data) => setUser(data)); },
+        []);
     if (user) {
         return (
             <div className="d-flex justify-content-center">
@@ -22,7 +23,10 @@ const UserPage = ({ userId }) => {
                     <QualitiesList qualities={user.qualities} />
                     <h6>completedMeetings:{user.completedMeetings}</h6>
                     <h2>Rate:{user.rate}</h2>
-                    <button onClick={() => handleToUsersPage()}>Все пользователи</button>
+                    <button onClick={handleClick}>Все пользователи</button>
+                    <button>
+                        <Link to={`/users/${user._id}/edit`}>edit</Link>
+                    </button>
                 </div>
             </div>);
     } return <div className="d-flex justify-content-center">

@@ -85,7 +85,6 @@ const UsersListPage = () => {
 
         const clickSearch = () => {
             console.log(sortedUsers);
-            // Проверка поиска через регулярку
             users.filter((user) => {
                 if (dynamicRegExp.test(user.name)) {
                     return console.log(user.name + " ______прошёл_______");

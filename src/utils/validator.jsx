@@ -3,15 +3,20 @@ export function validator(data, config) {
     function validate(validateMethod, data, config) {
         let statusValidate;
         switch (validateMethod) {
-            case "isRequired":
-                statusValidate = data.trim() === "";
+            case "isRequired": {
+                if (typeof data === "boolean") {
+                    statusValidate = !data;
+                } else {
+                    statusValidate = data === "";
+                }
                 break;
+            }
             case "isEmail": {
                 const emailRegExp = /^\S+@\S+\.\S+$/g;
                 statusValidate = !emailRegExp.test(data);
                 break;
             }
-            case "isCapital": {
+            case "isCapitalSymbol": {
                 const capitalRegExp = /[A-Z]+/g;
                 statusValidate = !capitalRegExp.test(data);
                 break;
@@ -22,7 +27,7 @@ export function validator(data, config) {
                 break;
             }
             case "min": {
-                statusValidate = data.lenght < config.value;
+                statusValidate = data.length < config.value;
                 break;
             }
             default:
@@ -35,8 +40,8 @@ export function validator(data, config) {
             const error = validate(
                 validateMethod,
                 data[fieldName],
-                config[fieldName][validateMethod]);
-
+                config[fieldName][validateMethod]
+            );
             if (error && !errors[fieldName]) {
                 errors[fieldName] = error;
             }

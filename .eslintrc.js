@@ -14,7 +14,7 @@ module.exports = {
     plugins: ["react"],
     rules: {
         indent: [0, 4],
-
+        "no-return-assign": 2,
         semi: [2, "always"],
 
         "space-before-function-paren": [
